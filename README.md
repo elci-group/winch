@@ -1,4 +1,5 @@
 # 🛠️ Winch — Automatic Cargo Dependency Resolver
+<img width="1024" height="1024" alt="logo" src="https://github.com/user-attachments/assets/464509b0-fe8e-4ca9-bae5-9750971ca5ea" />
 
 [![Rust](https://img.shields.io/badge/rust-1.70+-orange?logo=rust&logoColor=white)](https://www.rust-lang.org/)
 [![License](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
