@@ -24,6 +24,6 @@ Make sure you have Rust installed (rustc 1.70+ recommended).
 Clone the repository and build:
 
 ```bash
-git clone https://github.com/<your-username>/winch.git
+git clone https://github.com/elci-group/winch.git
 cd winch
 cargo build --release
