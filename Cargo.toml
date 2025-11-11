@@ -1,0 +1,32 @@
+cat ~/winch/Cargo.toml
+[package]
+name = "winch_poc"
+version = "0.1.0"
+edition = "2021"
+authors = ["Your Name <you@example.com>"]
+description = "Proof-of-concept Winch: automatic Cargo dependency conflict resolver"
+license = "MIT"
+
+[dependencies]
+# Reqwest 0.12 — async handled via Tokio, no special feature needed for async
+reqwest = { version = "0.12", features = ["json", "blocking"] }
+
+# Tokio runtime for async reqwest
+tokio = { version = "1.40", features = ["full"] }
+
+# Serialization / deserialization
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+
+# TOML editor for Cargo.toml manipulation
+toml_edit = "0.20"
+
+# Regex parsing for error detection
+regex = "1.10"
+
+# Simplified error handling
+anyhow = "1.0"
+
+# Cartesian product generation for multi-crate combos
+itertools = "0.10"
+semver = "1.0.27"
