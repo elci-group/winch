@@ -1,0 +1,45 @@
+{
+  "transaction_id": "KAP-1788882513-51ac43b6",
+  "created_at": 1788882513431,
+  "state": "planned",
+  "plan": {
+    "plan_id": "0881f780-4b68-4693-8a98-23248728eaf4",
+    "project": "/tmp/clone-fix-xp4edbhe",
+    "analysis_id": "uni-19c879a5-bea1-4a20-8db0-b7e12405dd99",
+    "analysis_fingerprint": {
+      "head": "24a81538216259bc04decd98be38675f2d2b71e1",
+      "worktree_hash": "aa9e49aca873d482cea8d9ae06fc7a9c",
+      "index_hash": "f6aad80b335e72baf52c3d2ede63a453",
+      "uni_version": "0.2.3",
+      "tool_versions": {},
+      "plan_hash": "0881f780-4b68-4693-8a98-23248728eaf4",
+      "timestamp_ms": 1788882513430
+    },
+    "remediations": [
+      {
+        "tool": "isopod",
+        "reason": "5/14 controls assessed (35.7% coverage): 0 pass, 0 warn, 5 fail, 9 unknown",
+        "command": "isopod --base /tmp/clone-fix-xp4edbhe harden --apply",
+        "expected_files": [],
+        "remediation_class": "proposal",
+        "complexity": null,
+        "required_capabilities": [],
+        "verify_command": null
+      }
+    ],
+    "total_complexity": 0,
+    "risk_assessment": "low"
+  },
+  "source_branch": "/tmp/clone-fix-xp4edbhe",
+  "source_head": "24a81538216259bc04decd98be38675f2d2b71e1",
+  "worktree_preservation": null,
+  "remediation_branch": null,
+  "tool_capabilities": null,
+  "results": [],
+  "error": null,
+  "rolled_back": false,
+  "merge_commit": null,
+  "audit_log": [
+    "[CREATED] Transaction Planned"
+  ]
+}

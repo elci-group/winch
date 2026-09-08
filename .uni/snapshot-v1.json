@@ -1,0 +1,81 @@
+{
+  "schema": "bound-snapshot",
+  "schema_version": "1.0.0",
+  "producer": "bound",
+  "producer_version": "0.1.5",
+  "target": "/tmp/clone-fix-xp4edbhe",
+  "target_commit": "24a81538216259bc04decd98be38675f2d2b71e1",
+  "generated_at": "1788882513",
+  "filter": {
+    "extension": null,
+    "dependency_aware": false
+  },
+  "limits": {
+    "token": null,
+    "size": null,
+    "depth": null
+  },
+  "tree": "🌳 PROJECT TREE (root: /tmp/clone-fix-xp4edbhe)\n\nCargo.toml\nLICENSE\nREADME.md\nSECURITY.md\nsrc\n    main.rs\n",
+  "files": [
+    {
+      "path": "/tmp/clone-fix-xp4edbhe/Cargo.toml",
+      "relative_path": "Cargo.toml",
+      "language": "toml",
+      "size_bytes": 830,
+      "lines": 32,
+      "modified_unix": 1788882513,
+      "sha256": "8afd376aadf9e9d03589a57ddc7ab2b0d3dfd7ca9c999937ceccc9afdae097cb",
+      "content": "cat ~/winch/Cargo.toml\n[package]\nname = \"winch_poc\"\nversion = \"0.1.0\"\nedition = \"2021\"\nauthors = [\"Your Name <you@example.com>\"]\ndescription = \"Proof-of-concept Winch: automatic Cargo dependency conflict resolver\"\nlicense = \"MIT\"\n\n[dependencies]\n# Reqwest 0.12 — async handled via Tokio, no special feature needed for async\nreqwest = { version = \"0.12\", features = [\"json\", \"blocking\"] }\n\n# Tokio runtime for async reqwest\ntokio = { version = \"1.40\", features = [\"full\"] }\n\n# Serialization / deserialization\nserde = { version = \"1.0\", features = [\"derive\"] }\nserde_json = \"1.0\"\n\n# TOML editor for Cargo.toml manipulation\ntoml_edit = \"0.20\"\n\n# Regex parsing for error detection\nregex = \"1.10\"\n\n# Simplified error handling\nanyhow = \"1.0\"\n\n# Cartesian product generation for multi-crate combos\nitertools = \"0.10\"\nsemver = \"1.0.27\"\n",
+      "dependencies": []
+    },
+    {
+      "path": "/tmp/clone-fix-xp4edbhe/LICENSE",
+      "relative_path": "LICENSE",
+      "language": null,
+      "size_bytes": 1067,
+      "lines": 21,
+      "modified_unix": 1788882513,
+      "sha256": "de666fd12ed2665bd20e1abcae2cd36d3b58b606d3e03dd977f5ef08b31f53a3",
+      "content": "MIT License\n\nCopyright (c) 2025 elci-group\n\nPermission is hereby granted, free of charge, to any person obtaining a copy\nof this software and associated documentation files (the \"Software\"), to deal\nin the Software without restriction, including without limitation the rights\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\ncopies of the Software, and to permit persons to whom the Software is\nfurnished to do so, subject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in all\ncopies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\nIMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\nFITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE\nAUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\nLIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\nOUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE\nSOFTWARE.\n",
+      "dependencies": []
+    },
+    {
+      "path": "/tmp/clone-fix-xp4edbhe/README.md",
+      "relative_path": "README.md",
+      "language": "md",
+      "size_bytes": 3771,
+      "lines": 139,
+      "modified_unix": 1788882513,
+      "sha256": "33479b638bc0b9ce192ca2604d4baab57ee26b99123ebff9f852341cd35ef610",
+      "content": "# 🛠️ Winch — Automatic Cargo Dependency Resolver\n<img width=\"1024\" height=\"1024\" alt=\"logo\" src=\"https://github.com/user-attachments/assets/464509b0-fe8e-4ca9-bae5-9750971ca5ea\" />\n\n[![Rust](https://img.shields.io/badge/rust-1.70+-orange?logo=rust&logoColor=white)](https://www.rust-lang.org/)\n[![License](https://img.shields.io/badge/license-MIT-blue)](LICENSE)\n\nWinch is a Rust-based tool that **automatically resolves Cargo dependency conflicts** and **handles missing crates** by fetching the latest releases. It tries multiple versions and rolls back if a build fails, allowing Rust projects to recover from broken dependency states with minimal manual intervention.\n\n---\n\n## Features\n\n- ✅ Detects conflicting crate versions and attempts automatic resolution.  \n- 🆕 Detects missing crates, fetches latest versions, and updates `Cargo.toml`.  \n- 🔄 Performs rollback if a build fails, trying multiple candidate versions (`MAX_ROLLBACKS`).  \n- 🛡️ Safe testing via temporary `Cargo.winch.toml` to avoid corrupting main manifest.  \n- 📊 Prints detailed logs of all attempted combinations and results.\n\n---\n\n## Installation\n\nMake sure you have Rust installed (rustc 1.70+ recommended).  \n\nClone the repository and build:\n\n```bash\ngit clone https://github.com/<your-username>/winch.git\ncd winch\ncargo build --release\n````\n\nThe compiled binary will be at:\n\n```\ntarget/release/winch\n```\n\n---\n\n## Usage\n\nBasic usage:\n\n```bash\n./winch [--dir <path>] [--help|-h]\n```\n\n### Options\n\n| Option         | Description                                 |\n| -------------- | ------------------------------------------- |\n| `--dir <path>` | Path to Rust project (default: current dir) |\n| `--help`, `-h` | Show this help message                      |\n\n---\n\n### Example: Fixing a Broken Project\n\n```bash\n# Navigate to a project with dependency issues\ncd ~/projects/my-rust-app\n\n# Run Winch\nwinch --dir .\n```\n\n* Winch will attempt to build the project.\n* If conflicts or missing crates are detected, it fetches candidate versions and tries builds iteratively.\n* On success, `Cargo.toml` is updated with working versions.\n* If all combinations fail, manual intervention is required.\n\n---\n\n### Example: Missing Crates Auto-Resolution\n\nIf a crate is missing from your project:\n\n```text\nerror[E0463]: can't find crate for `serde_json`\n```\n\nWinch will:\n\n1. Detect the missing crate (`serde_json`).\n2. Fetch the latest release from crates.io.\n3. Update `Cargo.toml` (temporarily) and attempt a build.\n4. Roll back to previous versions if the build fails.\n\n---\n\n## Configuration\n\n* `MAX_ROLLBACKS` (default `5`) controls how many past versions are attempted for each crate during rollback.\n* Temporary testing is done in `Cargo.winch.toml` to prevent corrupting the main manifest until a successful build occurs.\n\n---\n\n## Limitations\n\n* Works best with semantic versioning (SemVer) compliant crates.\n* Large projects with many conflicts may result in combinatorial explosion of build attempts.\n* Does not automatically resolve deeper dependency tree conflicts; manual review may be necessary in complex scenarios.\n\n---\n\n## Development\n\nClone and build in debug mode for development:\n\n```bash\ncargo build\ncargo run -- --dir path/to/project\n```\n\nAdd new features or improve version selection logic as needed.\n\n---\n\n## License\n\nMIT License. See [LICENSE](LICENSE) for details.\n\n---\n\n## Contributions\n\nContributions, bug reports, and feature requests are welcome!\nPlease open an issue or submit a pull request on GitHub.\n\n---\n\n## Acknowledgements\n\n* [Crates.io API](https://crates.io/) for fetching version data.\n* `toml_edit` for safe programmatic `Cargo.toml` editing.\n* `reqwest` for HTTP requests.\n* `regex` for parsing Cargo build errors.\n* `semver` for version comparison.\n",
+      "dependencies": []
+    },
+    {
+      "path": "/tmp/clone-fix-xp4edbhe/SECURITY.md",
+      "relative_path": "SECURITY.md",
+      "language": "md",
+      "size_bytes": 455,
+      "lines": 9,
+      "modified_unix": 1788882513,
+      "sha256": "b9654a77d11097db582aa3ac13085c80ce5cf3481391ff4c62c07f91196d2ddf",
+      "content": "# Security Policy\n\n## Supported versions\n\nSecurity fixes are provided for the latest supported release.\n\n## Reporting a vulnerability\n\nPlease report suspected vulnerabilities privately to the project maintainers. Do not open a public issue containing exploit details, credentials, or personal data. Include affected versions, reproduction steps, and potential impact. The maintainers will acknowledge the report and coordinate remediation and disclosure.\n",
+      "dependencies": []
+    },
+    {
+      "path": "/tmp/clone-fix-xp4edbhe/src/main.rs",
+      "relative_path": "src/main.rs",
+      "language": "rs",
+      "size_bytes": 6569,
+      "lines": 200,
+      "modified_unix": 1788882513,
+      "sha256": "d619c45de23cc6c3254ef26f75398a59e999088dc37246fe9cb66b7ce89cf874",
+      "content": "cat ~/winch/src/main.rs\nuse std::process::{Command, Stdio};\nuse std::fs;\nuse serde_json::Value;\nuse toml_edit::{Document, value};\nuse regex::Regex;\nuse reqwest::Client;\nuse std::path::PathBuf;\nuse anyhow::Result;\nuse semver::Version;\nconst MAX_ROLLBACKS: usize = 5;\n\n#[tokio::main]\nasync fn main() -> Result<()> {\n    // --- CLI Args ---\n    let args: Vec<String> = std::env::args().collect();\n    if args.iter().any(|a| a == \"--help\" || a == \"-h\") {\n        print_help();\n        return Ok(());\n    }\n\n    let dir = if let Some(pos) = args.iter().position(|a| a == \"--dir\") {\n        args.get(pos + 1).map(|s| PathBuf::from(s)).unwrap_or(std::env::current_dir()?)\n    } else {\n        std::env::current_dir()?\n    };\n\n    println!(\"🛠️  Running Winch in directory: {}\", dir.display());\n\n    // --- Step 1: Initial build attempt ---\n    let output = Command::new(\"cargo\")\n        .arg(\"build\")\n        .current_dir(&dir)\n        .stderr(Stdio::piped())\n        .output()?;\n\n    let stderr = String::from_utf8_lossy(&output.stderr);\n\n    if output.status.success() {\n        println!(\"✅ Cargo build succeeded! No dependency issues detected.\");\n        return Ok(());\n    }\n\n    println!(\"⚠️  Build failed. Detecting dependency issues...\");\n\n    // --- Step 2: Detect problems ---\n    let conflict_crates = parse_conflicts(&stderr);\n    let missing_crates = parse_missing_crates(&stderr);\n\n    let mut problem_crates = conflict_crates.clone();\n    problem_crates.extend(missing_crates.iter().cloned());\n\n    if problem_crates.is_empty() {\n        println!(\"❌ No parseable dependency issues found.\");\n        return Ok(());\n    }\n\n    println!(\"🧩 Problematic crates detected: {:?}\", problem_crates);\n\n    // --- Step 3: Fetch candidate versions ---\n    let client = Client::new();\n    let mut candidates_map = std::collections::HashMap::new();\n    for crate_name in &problem_crates {\n        let mut versions = get_candidate_versions(&client, crate_name).await?;\n\n        // For missing crates, ensure latest is first\n        if missing_crates.contains(crate_name) {\n            versions.sort_by(|a, b| Version::parse(b).unwrap().cmp(&Version::parse(a).unwrap()));\n\n        }\n\n        candidates_map.insert(crate_name.clone(), versions);\n    }\n\n    // --- Step 4: Generate version combinations ---\n    let all_combinations = generate_combinations(&candidates_map);\n    println!(\"🔄 Trying {} version combinations...\", all_combinations.len());\n\n    // --- Step 5: Try combinations ---\n    for combo in all_combinations {\n        println!(\"🧪 Trying combination: {:?}\", combo);\n\n        let cargo_toml_path = dir.join(\"Cargo.toml\");\n        let cargo_toml_content = fs::read_to_string(&cargo_toml_path)?;\n        let mut doc = cargo_toml_content.parse::<Document>()?;\n\n        for (crate_name, version) in &combo {\n            doc[\"dependencies\"][crate_name] = value(version.clone());\n        }\n\n        let winch_toml_path = dir.join(\"Cargo.winch.toml\");\n        fs::write(&winch_toml_path, doc.to_string())?;\n\n        let build_result = Command::new(\"cargo\")\n            .arg(\"build\")\n            .arg(\"--manifest-path\")\n            .arg(&winch_toml_path)\n            .stdout(Stdio::inherit())\n            .stderr(Stdio::inherit())\n            .current_dir(&dir)\n            .spawn()?\n            .wait()?;\n\n        if build_result.success() {\n            println!(\"🎉 Build succeeded with combination: {:?}\", combo);\n            fs::write(&cargo_toml_path, doc.to_string())?;\n            println!(\"📦 Cargo.toml updated with working versions.\");\n            return Ok(());\n        } else {\n            println!(\"❌ Build failed. Trying next combination...\");\n        }\n    }\n\n    println!(\"💀 All combinations failed. Manual intervention required.\");\n    Ok(())\n}\n\n/// Print help message\nfn print_help() {\n    println!(\"🛠️  Winch — Automatic Cargo Dependency Resolver\");\n    println!();\n    println!(\"Usage:\");\n    println!(\"  winch [--dir <path>] [--help|-h]\");\n    println!();\n    println!(\"Options:\");\n    println!(\"  --dir <path>   Path to Rust project (default: current dir)\");\n    println!(\"  --help, -h     Show this help message\");\n}\n\n/// Parse cargo stderr for conflicting crates\nfn parse_conflicts(stderr: &str) -> Vec<String> {\n    let re = Regex::new(r#\"failed to select a version for `([^`]*)`\"#).unwrap();\n    re.captures_iter(stderr)\n        .map(|cap| cap[1].to_string())\n        .collect()\n}\n\n/// Parse cargo stderr for missing crates\nfn parse_missing_crates(stderr: &str) -> Vec<String> {\n    let mut missing = vec![];\n    let re1 = Regex::new(r#\"can't find crate for `([^`]*)`\"#).unwrap();\n    missing.extend(re1.captures_iter(stderr).map(|cap| cap[1].to_string()));\n    let re2 = Regex::new(r#\"could not find `([^`]*)` in registry\"#).unwrap();\n    missing.extend(re2.captures_iter(stderr).map(|cap| cap[1].to_string()));\n    missing\n}\n\n/// Fetch top candidate versions from crates.io\nasync fn get_candidate_versions(client: &Client, crate_name: &str) -> Result<Vec<String>> {\n    let url = format!(\"https://crates.io/api/v1/crates/{}\", crate_name);\n    let resp: Value = client.get(&url).send().await?.json().await?;\n\n    let versions = resp[\"versions\"]\n        .as_array()\n        .unwrap()\n        .iter()\n        .filter_map(|v| {\n            let vers = v[\"num\"].as_str()?;\n            let yanked = v[\"yanked\"].as_bool().unwrap_or(false);\n            if !yanked { Some(vers.to_string()) } else { None }\n        })\n        .take(MAX_ROLLBACKS)\n        .collect::<Vec<String>>();\n\n    Ok(versions)\n}\n\n/// Generate all combinations of candidate versions\nfn generate_combinations(\n    candidates_map: &std::collections::HashMap<String, Vec<String>>\n) -> Vec<std::collections::HashMap<String, String>> {\n    let keys: Vec<&String> = candidates_map.keys().collect();\n    let mut lists: Vec<&Vec<String>> = vec![];\n    for k in &keys { lists.push(candidates_map.get(*k).unwrap()); }\n\n    let mut combos = vec![];\n    let mut indices = vec![0; lists.len()];\n\n    loop {\n        let mut combo = std::collections::HashMap::new();\n        for (i, &key) in keys.iter().enumerate() {\n            combo.insert(key.clone(), lists[i][indices[i]].clone());\n        }\n        combos.push(combo);\n\n        let mut carry = 1;\n        for i in 0..indices.len() {\n            if carry == 0 { break; }\n            indices[i] += carry;\n            if indices[i] >= lists[i].len() {\n                indices[i] = 0;\n            } else {\n                carry = 0;\n            }\n        }\n        if carry == 1 { break; }\n    }\n\n    combos\n}\n",
+      "dependencies": []
+    }
+  ],
+  "summary": {
+    "file_count": 5,
+    "total_bytes": 12692,
+    "total_lines": 401
+  }
+}
